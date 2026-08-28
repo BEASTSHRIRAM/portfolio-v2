@@ -1,6 +1,6 @@
 # Sriram Kulkarni — Portfolio
 
-A portfolio for Sriram Kulkarni, an AI Engineer Intern building practical AI products and full-stack software.
+A portfolio of Sriram Kulkarni.
 
 Set `NEXT_PUBLIC_SITE_URL` before deploying to configure the canonical URL, sitemap, and social metadata.
 
