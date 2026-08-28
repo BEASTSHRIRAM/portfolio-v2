@@ -1,0 +1,608 @@
+@import "../../tokens.css";
+@import "tailwindcss";
+
+@theme inline {
+  --color-mat: var(--color-mat);
+  --color-mat-deep: var(--color-mat-deep);
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ink-subtle: var(--color-ink-subtle);
+  --color-accent: var(--color-accent);
+  --color-on-mat: var(--color-on-mat);
+  --color-accent-on-mat: var(--color-accent-on-mat);
+  --font-sans: var(--font-body);
+  --font-hand: var(--font-hand);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-mat);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+::selection {
+  background: oklch(88% 0.14 85 / 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up var(--dur-slow) var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Squiggly underline link style */
+.marker-link {
+  color: var(--color-ink);
+  text-decoration: underline wavy var(--color-link-squiggle);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+
+.marker-link:hover,
+.marker-link:focus-visible {
+  text-decoration-color: var(--color-accent);
+}
+
+.marker-link--on-mat {
+  text-decoration-color: var(--color-link-squiggle-on-mat);
+}
+
+.marker-link--on-mat:hover,
+.marker-link--on-mat:focus-visible {
+  text-decoration-color: var(--color-accent-on-mat);
+}
+
+@keyframes link-preview-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.link-preview-pop {
+  animation: link-preview-in 340ms var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-preview-pop {
+    animation: none;
+  }
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+  font-weight: 400;
+}
+
+.text-shadow-on-mat {
+  text-shadow: 0 1px 3px oklch(20% 0.03 160 / 0.45);
+}
+
+.cutout-pop {
+  transform-origin: center;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.group\/cutout:hover .cutout-pop,
+.group\/cutout:focus-visible .cutout-pop,
+.group\/cutout:active .cutout-pop,
+.group\/cutout[data-dragging="true"] .cutout-pop {
+  transform: scale(1.08);
+}
+
+.group\/cutout[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.cutout-sticker {
+  filter:
+    drop-shadow(1px 0 0 var(--color-sticker-outline))
+    drop-shadow(-1px 0 0 var(--color-sticker-outline))
+    drop-shadow(0 1px 0 var(--color-sticker-outline))
+    drop-shadow(0 -1px 0 var(--color-sticker-outline))
+    drop-shadow(1px 1px 0 var(--color-sticker-outline))
+    drop-shadow(-1px 1px 0 var(--color-sticker-outline))
+    drop-shadow(1px -1px 0 var(--color-sticker-outline))
+    drop-shadow(-1px -1px 0 var(--color-sticker-outline))
+    drop-shadow(2px 3px 2px var(--color-shadow));
+}
+
+.cutout-sticker-thin {
+  filter:
+    drop-shadow(0.5px 0 0 var(--color-sticker-outline))
+    drop-shadow(-0.5px 0 0 var(--color-sticker-outline))
+    drop-shadow(0 0.5px 0 var(--color-sticker-outline))
+    drop-shadow(0 -0.5px 0 var(--color-sticker-outline))
+    drop-shadow(1px 2px 1.5px var(--color-shadow));
+}
+
+.cutout-sticker-plain {
+  filter: drop-shadow(2px 3px 2px var(--color-shadow));
+}
+
+.cutout-tooltip {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+  z-index: 2;
+  translate: -50% 0;
+  width: max-content;
+  max-width: 11rem;
+  white-space: normal;
+  text-align: center;
+  border: 1px solid var(--color-sticker-outline);
+  border-radius: 0.375rem;
+  background: var(--color-paper);
+  padding: 0.15rem 0.5rem;
+  font-family: var(--font-hand);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+  opacity: 0;
+  box-shadow: 2px 3px 0 var(--color-shadow);
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.group\/cutout:hover .cutout-tooltip,
+.group\/cutout:focus-visible .cutout-tooltip {
+  opacity: 1;
+}
+
+.group\/cutout:active .cutout-tooltip,
+.group\/cutout[data-dragging="true"] .cutout-tooltip,
+.group\/cutout[data-just-dropped="true"] .cutout-tooltip {
+  opacity: 0;
+}
+
+.note-burst {
+  position: absolute;
+  inset: 0;
+  /* Negative z paints before the in-flow .cutout-pop (step 2 vs step 3 of the
+     stacking order), so notes read as emerging from under the sticker. A
+     z-index of 0 here would paint ABOVE it despite coming first in the DOM. */
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.group\/cutout:hover .note-burst,
+.group\/cutout:focus-visible .note-burst,
+.group\/cutout:active .note-burst,
+.group\/cutout[data-dragging="true"] .note-burst {
+  opacity: 1;
+}
+
+.note-burst-item {
+  position: absolute;
+  left: 2%;
+  top: 38%;
+  width: 1.15rem;
+  animation: note-drift var(--note-dur, 3.2s) var(--ease-out) infinite;
+  animation-delay: var(--note-delay, 0s);
+}
+
+@keyframes note-drift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.45);
+  }
+  14% {
+    opacity: 0.85;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  /* Fully faded and at rest by 68% of the cycle -- the remaining 32% is a
+     brief gap where this note is invisible, so the pool doesn't read as a
+     constant swarm without going quiet for too long between appearances. */
+  68%,
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--note-dx), var(--note-dy), 0) rotate(var(--note-rot))
+      scale(var(--note-scale, 1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group\/cutout:hover .cutout-pop,
+  .group\/cutout:focus-visible .cutout-pop,
+  .group\/cutout:active .cutout-pop,
+  .group\/cutout[data-dragging="true"] .cutout-pop {
+    transform: none;
+  }
+
+  .cutout-tooltip {
+    transition: none;
+  }
+
+  .note-burst {
+    display: none;
+  }
+}
+
+.sticker-card {
+  background: var(--color-paper);
+  border: var(--sticker-outline) solid var(--color-sticker-outline);
+  box-shadow: 4px 6px 0 var(--color-shadow);
+  transition: transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.sticker-card:hover {
+  transform: rotate(0deg) translateY(-3px) !important;
+  box-shadow: 6px 10px 0 var(--color-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker-card:hover {
+    transform: none !important;
+  }
+}
+
+@property --note-fold-size {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1.375rem;
+}
+
+.sticky-note {
+  --note-rotation: 0deg;
+  --note-fold-size: 1.375rem;
+  position: relative;
+  isolation: isolate;
+  padding-right: 1.375rem;
+  padding-bottom: 1.375rem;
+  transform: rotate(var(--note-rotation));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--note-bg), white 18%) 0%,
+      var(--note-bg) 28%,
+      color-mix(in oklab, var(--note-bg), black 6%) 100%
+    );
+  box-shadow:
+    2px 3px 0 var(--color-shadow),
+    6px 10px 18px oklch(20% 0.03 160 / 0.18);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    --note-fold-size var(--dur-base) var(--ease-out);
+}
+
+.sticky-note::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: var(--note-fold-size);
+  height: var(--note-fold-size);
+  pointer-events: none;
+  background: linear-gradient(
+    225deg,
+    oklch(20% 0.03 160 / 0.32) 0%,
+    oklch(20% 0.03 160 / 0.1) 52%,
+    transparent 72%
+  );
+}
+
+.sticky-note::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 0 0 var(--note-fold-size) var(--note-fold-size);
+  border-color: transparent transparent var(--note-fold) var(--note-crease);
+  filter: drop-shadow(-2px -2px 2px oklch(20% 0.03 160 / 0.2));
+}
+
+.sticky-note:hover,
+.sticky-note:focus-within {
+  --note-fold-size: 2.125rem;
+  transform: rotate(var(--note-rotation)) translateY(-2px);
+  box-shadow:
+    3px 5px 0 var(--color-shadow),
+    8px 14px 24px oklch(20% 0.03 160 / 0.24);
+}
+
+@media (max-width: 1023px) {
+  .sticky-note {
+    --note-rotation: 0deg !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-note {
+    transition: none;
+  }
+
+  .sticky-note:hover,
+  .sticky-note:focus-within {
+    --note-fold-size: 1.375rem;
+    transform: rotate(var(--note-rotation));
+    box-shadow:
+      2px 3px 0 var(--color-shadow),
+      6px 10px 18px oklch(20% 0.03 160 / 0.18);
+  }
+}
+
+/* Hallmark · component: clothesline-achievements · genre: playful · theme: custom (Cutting Mat)
+ * states: swap-button default · hover · focus · active
+ * contrast: pass
+ */
+
+@keyframes clothesline-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.clothesline-swap {
+  animation: clothesline-swap-in var(--dur-base) var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clothesline-swap {
+    animation: none;
+  }
+}
+
+.clothesline-swap-btn {
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clothesline-swap-btn {
+    transition: none;
+  }
+
+  .clothesline-swap-btn:active {
+    transform: none;
+  }
+}
+
+/* Mobile hackathon arc transitions — short, linear-feel crossfade */
+
+@keyframes arc-exit-forward {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-62%, -42%, 0) rotate(-16deg);
+  }
+}
+
+@keyframes arc-enter-forward {
+  from {
+    opacity: 0.45;
+    transform: translate3d(52%, 8%, 0) rotate(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes arc-exit-back {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(62%, -42%, 0) rotate(16deg);
+  }
+}
+
+@keyframes arc-enter-back {
+  from {
+    opacity: 0.45;
+    transform: translate3d(-52%, 8%, 0) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.arc-exit-forward {
+  animation: arc-exit-forward 260ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.arc-enter-forward {
+  animation: arc-enter-forward 260ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.arc-exit-back {
+  animation: arc-exit-back 260ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.arc-enter-back {
+  animation: arc-enter-back 260ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc-exit-forward,
+  .arc-enter-forward,
+  .arc-exit-back,
+  .arc-enter-back {
+    animation: none;
+  }
+}
+
+/* X-acto easter egg: mat scratches, rope snap */
+
+@keyframes mat-scratch-heal {
+  to {
+    opacity: 0;
+  }
+}
+
+.mat-scratch-heal {
+  animation: mat-scratch-heal var(--dur-scratch-heal) var(--ease-out) var(--dur-scratch-hold) forwards;
+}
+
+@keyframes rope-recoil-left {
+  to {
+    transform: rotate(-8deg) translateY(5px);
+  }
+}
+
+@keyframes rope-recoil-right {
+  to {
+    transform: rotate(8deg) translateY(5px);
+  }
+}
+
+@keyframes rope-heal-left {
+  from {
+    transform: rotate(-8deg) translateY(5px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes rope-heal-right {
+  from {
+    transform: rotate(8deg) translateY(5px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.rope-cut-left {
+  transform-origin: 4% 18%;
+  animation: rope-recoil-left var(--dur-rope-recoil) var(--ease-out) forwards;
+}
+
+.rope-cut-right {
+  transform-origin: 96% 18%;
+  animation: rope-recoil-right var(--dur-rope-recoil) var(--ease-out) forwards;
+}
+
+.rope-cut-left.is-healing {
+  animation: rope-heal-left var(--dur-rope-heal) var(--ease-in-out) forwards;
+}
+
+.rope-cut-right.is-healing {
+  animation: rope-heal-right var(--dur-rope-heal) var(--ease-in-out) forwards;
+}
+
+.hanging-slot-inner {
+  transition: transform var(--dur-polaroid-drop) var(--ease-out);
+  transition-delay: var(--cut-delay, 0ms);
+}
+
+.hanging-slot-inner.is-cut {
+  transform: translateY(2.4rem) rotate(var(--cut-tilt, 8deg));
+}
+
+@keyframes polaroid-sway {
+  from {
+    transform: rotate(-2deg);
+  }
+  to {
+    transform: rotate(2deg);
+  }
+}
+
+.polaroid-sway {
+  transform-origin: top center;
+  animation: polaroid-sway var(--dur-sway) var(--ease-in-out) infinite alternate;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+.polaroid-sway-paused {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mat-scratch-heal,
+  .rope-cut-left,
+  .rope-cut-right,
+  .rope-cut-left.is-healing,
+  .rope-cut-right.is-healing,
+  .polaroid-sway {
+    animation: none;
+  }
+
+  .hanging-slot-inner {
+    transition: none;
+  }
+}

@@ -1,0 +1,42 @@
+---
+description: Optimize new local raster assets before committing
+globs: public/assets/**,src/data/portfolio.ts
+alwaysApply: false
+---
+
+# Optimize local image assets
+
+When adding or replacing a raster image (`.png`, `.jpg`, `.jpeg`) under `public/assets/`:
+
+1. Place the source file in `public/assets/` or `public/assets/hackathon-icons/`.
+2. Run `pnpm optimize-images`.
+3. Update paths in `src/data/portfolio.ts` (`icon`, `photo`, `image`, `companyIcon`) to the `.webp` path printed by the script.
+4. Commit the optimized `.webp` file(s) and `portfolio.ts` together.
+
+Hover-preview stamps live in `public/assets/link-previews/`. Run `pnpm seed-link-previews` to fill missing files from each URL's Open Graph image. Existing files are never overwritten — drop a replacement at the same path to swap an OG default. Mapping: `src/data/link-preview-sources.json`.
+
+`pnpm optimize-images` scans `public/assets/` and converts files that are not already optimized. It:
+
+- Creates a `.webp` sibling and removes the original when smaller (e.g. `my-photo.jpg` → `my-photo.webp`)
+- Skips files that already have a `.webp` version
+- Skips files under 20 KB, hackathon icons under 50 KB, and conversions where WebP would not shrink the file
+- Re-compresses `profile-pic.jpg` in place when worthwhile
+
+Display rules for UI images:
+
+- Use `next/image` with an explicit `sizes` prop for local images shown in components.
+- SVG logos (e.g. `sarvam-logo.svg`) can stay as-is.
+- Remote images (OG previews, external favicons) are not handled by the script; keep those as plain `<img>` when the host is arbitrary.
+
+Do not commit large unoptimized raster files when a `.webp` version should exist instead.
+
+## Project demo videos
+
+When adding a hover/tap demo video for a project card:
+
+1. Drop the source `.mp4` in `media-src/videos/` (gitignored).
+2. Run `pnpm optimize-videos`.
+3. Add the `video` field (`.webm` path) to the project in `src/data/portfolio.ts`.
+4. Commit `public/assets/videos/*.webm` and `portfolio.ts` together. Deployed assets are WebM only — never commit `.mp4` under `public/assets/videos/`.
+
+Outputs land in `public/assets/videos/` as VP9 WebM (max width 960, no audio). Existing files are skipped. The static project `image` serves as the poster. Cards prefetch video when scrolled near; hover/tap to play.

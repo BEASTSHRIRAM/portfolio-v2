@@ -1,0 +1,51 @@
+import type { IconType } from "react-icons";
+import {
+  AiFillGithub,
+  AiFillLinkedin,
+  AiFillYoutube,
+} from "react-icons/ai";
+import { FaXTwitter } from "react-icons/fa6";
+
+const domainIcons: Record<string, IconType> = {
+  "linkedin.com": AiFillLinkedin,
+  "github.com": AiFillGithub,
+  "twitter.com": FaXTwitter,
+  "x.com": FaXTwitter,
+  "youtube.com": AiFillYoutube,
+  "youtu.be": AiFillYoutube,
+};
+
+const localFavicons: Record<string, string> = {};
+
+export function getDomain(href: string): string {
+  try {
+    return new URL(href).hostname.replace(/^www\./, "");
+  } catch {
+    return href;
+  }
+}
+
+export function getLinkIcon(href: string): IconType | null {
+  const domain = getDomain(href);
+  for (const [key, icon] of Object.entries(domainIcons)) {
+    if (domain === key || domain.endsWith(`.${key}`)) return icon;
+  }
+  return null;
+}
+
+export function getLocalFavicon(href: string): string | null {
+  const domain = getDomain(href);
+  for (const [key, path] of Object.entries(localFavicons)) {
+    if (domain === key || domain.endsWith(`.${key}`)) return path;
+  }
+  return null;
+}
+
+export function getFaviconUrl(href: string): string {
+  const domain = getDomain(href);
+  return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+}
+
+export function getDisplayDomain(href: string): string {
+  return getDomain(href);
+}
